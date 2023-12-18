@@ -1,6 +1,7 @@
 import { client } from '@/sanity/lib/client';
 import type { Post } from '../@types/Post';
 import PostCard from '../components/PostCard';
+import { Container } from '../components/Container';
 
 async function getPosts() {
   const query = `
@@ -20,12 +21,18 @@ export default async function Home() {
   const posts: Post[] = await getPosts();
 
   return (
-    <div>
-      <h1 className="mb-8">Articles</h1>
+    <Container>
+      <h1 className="text-4xl font-bold tracking-tight text-zinc-800 dark:text-zinc-100 text-center py-10">Articles</h1>
 
-      <div className="space-y-4">
-        {posts?.length > 0 && posts.map((post) => <PostCard key={post._id} post={post} />)}
+      <div className="mt-16">
+        <div className="mx-auto grid max-w-xl grid-cols-1 gap-y-20 ">
+          <div className="flex flex-col flex-auto gap-16 w-full">
+            {posts.map((post) => (
+              <PostCard key={post._id} post={post} />
+            ))}
+          </div>
+        </div>
       </div>
-    </div>
+    </Container>
   );
 }

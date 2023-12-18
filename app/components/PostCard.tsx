@@ -1,27 +1,24 @@
 import Link from 'next/link';
 import { Post } from '../@types/Post';
 import { CommonProps } from '../@types/common';
+import { Card } from './Card';
+import { formatDate } from '../lib/formatDate';
 
 interface PostCardProps extends CommonProps {
   post: Post;
 }
 
 const PostCard = ({ post }: PostCardProps) => {
+  console.log(post?.publishedAt);
   return (
-    <div>
-      <Link href={`/posts/${post?.slug?.current}`}>
-        <h2 className="font-bold">{post?.title}</h2>
-
-        <p>{post?.excerpt}</p>
-        <p className="text-sm text-neutral-500">{new Date(post?.publishedAt).toDateString()}</p>
-      </Link>
-
-      <div>
-        {post?.tags?.map((tag) => (
-          <span key={tag._id}>#{tag?.name}</span>
-        ))}
-      </div>
-    </div>
+    <Card as="article">
+      <Card.Title href={`/posts/${post.slug.current}`}>{post.title}</Card.Title>
+      <Card.Eyebrow as="time" dateTime={post.publishedAt} decorate>
+        {formatDate(post?.publishedAt)}
+      </Card.Eyebrow>
+      <Card.Description>{post.excerpt}</Card.Description>
+      <Card.Cta>Read post</Card.Cta>
+    </Card>
   );
 };
 
